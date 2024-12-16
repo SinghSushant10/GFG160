@@ -1,0 +1,41 @@
+#K-th element of two Arrays
+Given two sorted arrays a[] and b[] and an element k, the task is to find the element that would be at the kth position of the combined sorted array.
+Examples :
+Input: a[] = [2, 3, 6, 7, 9], b[] = [1, 4, 8, 10], k = 5
+Output: 6
+Explanation: The final combined sorted array would be [1, 2, 3, 4, 6, 7, 8, 9, 10]. The 5th element of this array is 6.
+
+TC:O(logn) SC:O(1)
+
+class Solution {
+    public int kthElement(int a[], int b[], int k) {
+ // Ensure that 'a' is the smaller array to minimize binary search iterations
+        if(a.length>b.length) return kthElement(b,a,k);
+        int n = a.length, m=b.length;   // length of array 'a' and 'b' 
+        int low=Math.max(0,k-m);    // Minimum number of elements to consider from 'a'
+        int high = Math.min(k,n);   // Maximum  number of elements to consider from 'a'
+        
+        while(low<=high){
+            int partitionA = low+(high-low)/2;
+            int partitionB = k-partitionA;
+      // Handle out-of-bounds cases for elements just left and right of partitions        
+            int minRightA = partitionA==n ?  Integer.MAX_VALUE: a[partitionA];
+            int minRightB = partitionB==m ?  Integer.MAX_VALUE: b[partitionB] ;
+            
+            int maxLeftA  = partitionA==0 ? Integer.MIN_VALUE :a[partitionA -1];
+            int maxLeftB =  partitionB==0 ? Integer.MIN_VALUE :b[partitionB -1];
+       // Check if the current partition is valid      
+            if(maxLeftA <= minRightB  && maxLeftB <= minRightA){
+                return Math.max(maxLeftA,maxLeftB);
+            }
+            else if(maxLeftA>minRightB){   
+                high=partitionA-1;   // Move the partition in 'a' to the left
+            }
+            else {
+                low=partitionA+1;    // Move the partition in 'a' to the  right
+            }
+        }
+        return -1;
+    
+    }
+}
