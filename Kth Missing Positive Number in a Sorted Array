@@ -1,0 +1,35 @@
+#Kth Missing Positive Number in a Sorted Array
+
+Given a sorted array of distinct positive integers arr[], we need to find the kth positive number that is missing from arr[].  
+
+Examples :
+
+Input: arr[] = [2, 3, 4, 7, 11], k = 5
+Output: 9
+Explanation: Missing are 1, 5, 6, 8, 9, 10… and 5th missing number is 9.
+
+TC: O(log n) SC:O(1)
+
+class Solution {
+    public int kthMissing(int[] arr, int k) {
+        // code here
+        int low=0 , high=arr.length-1, mid=0; 
+        while(low<=high){
+            mid=low+(high-low)/2;
+ // Calculate how many numbers are missing up to arr[mid]
+// If arr[mid] = 7 and mid = 3, numbers missing = 7 - (3 + 1) = 3
+            int missing=arr[mid]-(mid+1);
+            if(missing<k){
+     // If fewer missing numbers than k, search in the right half of the array
+                low=mid+1;
+            }
+            else{
+     // If more missing numbers than k, search in the left half of the array
+                high=mid-1;
+            }
+        }
+  // - `low` gives us the count of all numbers (present and missing) before the kth missing number
+        // - Adding k ensures we calculate the exact kth missing number
+        return k+low;
+    }
+}
