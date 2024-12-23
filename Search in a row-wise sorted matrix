@@ -1,0 +1,38 @@
+#Search in a row-wise sorted matrix
+
+Given a row-wise sorted 2D matrix mat[][] of size n x m and an integer x, find whether element x is present in the matrix.
+Note: In a row-wise sorted matrix, each row is sorted in itself, i.e. for any i, j within bounds, mat[i][j] <= mat[i][j+1].
+
+Examples :
+
+Input: mat[][] = [[3, 4, 9],[2, 5, 6],[9, 25, 27]], x = 9
+Output: true
+Explanation: 9 is present in the matrix, so the output is true.
+
+TC:O(nlogm) SC:O(1)
+
+class Solution {
+    // Function to search a given number in row-column sorted matrix.
+    public boolean searchRowMatrix(int[][] mat, int x) {
+        // code here
+        int n = mat.length ; 
+        int m = mat[0].length;
+        for(int i=0 ;i<n;i++){
+      // Skip this row if `x` is outside the range of the current row
+     // (mat[i][0] is the smallest element and mat[i][m-1] is the largest element in the row)
+            if (x < mat[i][0] || x > mat[i][m - 1])continue;
+            int low=0 , high=m-1 , mid=0;
+            while(low<=high){
+                mid=low+(high-low)/2;
+    
+                // Get the element at the middle index
+                int temp =  mat[i][mid];
+                if(temp==x) return true;
+         // If the middle element is less than x, search in the right half
+                else if (temp<x) low=mid+1;
+                else high=mid-1;
+            }
+        }
+        return false ;
+    }
+}
