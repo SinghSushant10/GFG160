@@ -1,0 +1,21 @@
+#Two Sum - Pair with Given Sum
+
+Given an array arr[] of positive integers and another integer target. Determine if there exists two distinct indices such that the sum of there elements is equals to target.
+Examples:
+Input: arr[] = [1, 4, 45, 6, 10, 8], target = 16
+Output: true
+Explanation: arr[3] + arr[4] = 6 + 10 = 16.
+
+TC:O(n) SC:O(n) 
+class Solution {
+    boolean twoSum(int arr[], int target) {
+        // code here
+        HashMap<Integer,Integer>  map = new HashMap<>();
+        for(int x :arr){
+    // If the complement exists in the map, a pair is found, so return true
+            if(map.get(target-x)!=null) return true;
+            map.put(x,1);
+        }
+        return false;
+    }
+}
