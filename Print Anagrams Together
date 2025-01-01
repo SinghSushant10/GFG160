@@ -1,0 +1,32 @@
+#Print Anagrams Together
+Given an array of strings, return all groups of strings that are anagrams. The groups must be created in order of their appearance in the original array. Look at the sample case for clarification.
+Note: The final output will be in lexicographic order.
+Examples:
+Input: arr[] = ["act", "god", "cat", "dog", "tac"]
+Output: [["act", "cat", "tac"], ["god", "dog"]]
+Explanation: There are 2 groups of anagrams "god", "dog" make group 1. "act", "cat", "tac" make group 2.
+
+Time Complexity: 𝑂(𝑛⋅𝑘log𝑘)
+Space Complexity: O(n⋅k)
+
+
+class Solution {
+    public ArrayList<ArrayList<String>> anagrams(String[] arr) {
+        // code here
+        ArrayList<ArrayList<String>> ans = new ArrayList<>();
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+        for(String x:arr){
+            char[] temp = x.toCharArray();
+            Arrays.sort(temp);
+            String str = new String (temp);
+            map.putIfAbsent(str,new ArrayList<>());
+            map.get(str).add(x);
+        }
+        for(ArrayList<String> x : map.values()){
+            ans.add(x);
+        }
+        return ans;
+    }
+}
+
+
