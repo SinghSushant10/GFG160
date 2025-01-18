@@ -1,0 +1,21 @@
+#Reverse a linked list
+Given the head of a linked list, the task is to reverse this list and return the reversed head.
+Examples:
+Input: head: 1 -> 2 -> 3 -> 4 -> NULL
+Output: head: 4 -> 3 -> 2 -> 1 -> NULL
+TC:O(n) SC:O(1) 
+
+class Solution {
+    Node reverseList(Node head) {
+        // code here
+        Node prev=null;
+        Node current=head;
+        while(current!=null){
+            Node next= current.next;
+            current.next=prev;
+            prev=current;
+            current=next;
+        }
+        return prev;
+    }
+}
