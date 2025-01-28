@@ -1,0 +1,41 @@
+#Permutations of a String
+Given a string s, which may contain duplicate characters, your task is to generate and return an array of all unique permutations of the string. You can return your answer in any order.
+
+Examples:
+
+Input: s = "ABC"
+Output: ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
+Explanation: Given string ABC has 6 unique permutations.
+
+TC:O(nxn!) SC:O(nxn!)
+class Solution {
+    public void solve(int i, int n , StringBuilder s, StringBuilder permu, Set<String> set){
+        if(permu.length()==n){
+            set.add(permu.toString());
+            return;
+        }
+        for(int j=i;j<n;j++){
+            swap(s,i,j);
+            permu.append(s.charAt(i));
+            solve(i+1,n,s,permu,set);
+            permu.deleteCharAt(permu.length()-1);
+            swap(s,i,j);
+        }
+    }
+    public void swap(StringBuilder s , int i, int j ){
+        char temp=s.charAt(i);
+        s.setCharAt(i,s.charAt(j));
+        s.setCharAt(j,temp);
+    }
+    
+    public ArrayList<String> findPermutation(String s) {
+        // Code here
+        Set<String> set = new HashSet<>();
+        StringBuilder permu = new StringBuilder();
+        StringBuilder sb = new StringBuilder(s);
+        int n = s.length();
+        solve(0,n,sb,permu,set);
+        return new ArrayList<>(set);
+        
+    }
+}
