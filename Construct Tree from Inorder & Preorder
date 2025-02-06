@@ -1,0 +1,60 @@
+#Construct Tree from Inorder & Preorder
+Given two arrays representing the inorder and preorder traversals of a binary tree, construct the tree and return the root node of the constructed tree.
+
+Note: The output is written in postorder traversal.
+
+Examples:
+
+Input: inorder[] = [1, 6, 8, 7], preorder[] = [1, 6, 7, 8]
+Output: [8, 7, 6, 1]
+Explanation: The tree will look like
+
+TC:O(n) SC:O(n) 
+
+import java.util.HashMap;
+
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int value) {
+        data = value;
+        left = right = null;
+    }
+}
+
+class Solution {
+    public static Node buildTree(int inorder[], int preorder[]) {
+        // Step 1: Create a HashMap to store the index of each value in the inorder traversal.
+        // This allows us to quickly find the position of any element in the inorder array.
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);  // Map element value to its index in inorder
+        }
+
+        // Step 2: Call the recursive split function to build the tree
+        return split(inorder, 0, inorder.length - 1, preorder, 0, map);
+    }
+
+    public static Node split(int[] inorder, int instart, int inend, int[] preorder, int index, HashMap<Integer, Integer> map) {
+        // Step 3: Create a new node with the current preorder value
+        Node root = new Node(preorder[index]);
+
+        // Step 4: Find the position of the current root node in the inorder array
+        int mid = map.get(root.data);
+
+        // Step 5: Build the left subtree if there are nodes on the left of the current root in the inorder array
+        if (mid > instart) {
+            root.left = split(inorder, instart, mid - 1, preorder, index + 1, map);
+        }
+
+        // Step 6: Build the right subtree if there are nodes on the right of the current root in the inorder array
+        if (mid < inend) {
+            root.right = split(inorder, mid + 1, inend, preorder, index + mid - instart + 1, map);
+        }
+
+        // Step 7: Return the constructed subtree rooted at the current node
+        return root;
+    }
+}
