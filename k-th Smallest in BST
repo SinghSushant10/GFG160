@@ -1,0 +1,28 @@
+#k-th Smallest in BST
+Given a BST and an integer k, the task is to find the kth smallest element in the BST. If there is no kth smallest element present then return -1.
+
+Examples:
+
+Input: root = [2, 1, 3], k = 2
+    
+Output: 2
+Explanation: 2 is the 2nd smallest element in the BST.
+TC:O(n) SC:O(n) 
+class Solution {
+    // Return the Kth smallest element in the given BST
+    public int kthSmallest(Node root, int k) {
+        // Write your code here
+        ArrayList<Integer> ls= new ArrayList<>();
+        inorder(root,ls);
+        if(k>0 && k<=ls.size()){
+            return ls.get(k-1); //kth element (1-based index)
+        }
+        return -1; //if k is out of bounds
+    }
+    public void inorder(Node root, ArrayList<Integer> ls){
+        if(root==null) return;
+        inorder(root.left,ls);
+        ls.add(root.data);
+        inorder(root.right,ls);
+    }
+}
